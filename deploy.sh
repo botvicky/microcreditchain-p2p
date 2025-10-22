@@ -1,62 +1,36 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-echo "🚀 Deploying MicroCreditChain P2P..."
+# Deployment helper script (guidance) for FastAPI backend and Expo app
 
-# Check if required tools are installed
-check_command() {
-    if ! command -v $1 &> /dev/null; then
-        echo "❌ $1 is not installed. Please install it first."
-        exit 1
-    fi
-}
+set -e
 
-echo "🔍 Checking prerequisites..."
-check_command "firebase"
-check_command "gcloud"
-check_command "expo"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Deploy Firebase Functions
-echo "📦 Deploying Firebase Functions..."
-cd firebase-functions
-npm install
-npm run build
-firebase deploy --only functions
-cd ..
+echo "Deploying FastAPI backend (ai-service)..."
 
-# Deploy Firestore Rules
-echo "🔒 Deploying Firestore Rules..."
-firebase deploy --only firestore:rules
+cd "$ROOT_DIR/ai-service"
 
-# Deploy Storage Rules
-echo "💾 Deploying Storage Rules..."
-firebase deploy --only storage
+echo "This script will not perform a full production deploy automatically.
+Choose one of the following options and run the commands manually:
 
-# Deploy AI Service to Google Cloud Run
-echo "🤖 Deploying AI Service..."
-cd ai-service
-gcloud run deploy ai-analyzer \
-  --source . \
-  --region=us-central1 \
-  --allow-unauthenticated \
-  --memory=1Gi \
-  --cpu=1 \
-  --max-instances=10
-cd ..
+1) Deploy to Google Cloud Run (example):
+   docker build -t gcr.io/<PROJECT-ID>/ai-analyzer:latest .
+   docker push gcr.io/<PROJECT-ID>/ai-analyzer:latest
+   gcloud run deploy ai-analyzer --image gcr.io/<PROJECT-ID>/ai-analyzer:latest --region=us-central1 --platform=managed --allow-unauthenticated
 
-# Build and deploy React Native app
-echo "📱 Building React Native app..."
-cd app
-npm install
-echo "Building for Android..."
-expo build:android --type apk
-echo "Building for iOS..."
-expo build:ios --type archive
-cd ..
+2) Deploy to any container platform: build and push Docker image and configure environment variables (DATABASE_URL, SECRET_KEY, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET).
 
-echo "✅ Deployment complete!"
-echo ""
-echo "Next steps:"
-echo "1. Test the deployed functions"
-echo "2. Upload the built apps to app stores"
-echo "3. Configure push notifications"
-echo "4. Set up monitoring and analytics"
+3) Deploy using a VM or Kubernetes: create appropriate deployment manifests and configure secrets.
+"
+
+echo "Expo app build instructions (Android/iOS):"
+cd "$ROOT_DIR/app"
+echo "To build the app binary or run in production mode, use Expo's build commands or EAS Build:
+  npx expo prebuild  # optional
+  npx eas build --platform android
+  npx eas build --platform ios
+"
+
+echo "Deployment guidance completed. Review CONFIGURATION.md for production notes."
+
+exit 0

@@ -1,37 +1,37 @@
 # MicroCreditChain P2P
 
-A peer-to-peer lending platform that connects Borrowers and Lenders through EcoCash/OneMoney, integrated with Firebase for backend and AI/ML API for EcoCash statement analysis.
+A peer-to-peer lending platform that connects Borrowers and Lenders through EcoCash/OneMoney, using a FastAPI + PostgreSQL backend and a Python AI/ML service for EcoCash statement analysis.
 
 ## 🚀 Features
 
-- **🔐 Authentication**: Firebase Auth with email/password and phone verification
+-- **🔐 Authentication**: FastAPI backend with JWT tokens and Google Sign-In (OAuth 2.0)
 - **👥 Role-based Access**: Borrower, Lender, and Admin dashboards with secure permissions
 - **🤖 AI-Powered Analysis**: Real EcoCash statement analysis for creditworthiness scoring
 - **💰 Loan Management**: Create offers, apply for loans, track repayments with automated scheduling
 - **🔔 Notifications**: Push notifications and email alerts with Firebase Cloud Messaging
 - **💸 Revenue System**: 15% commission on lender profits with automated calculation
 - **👨‍💼 Admin Panel**: Comprehensive user management, analytics, and system controls
-- **📱 Mobile-First**: React Native with Expo for iOS and Android
-- **☁️ Cloud-Native**: Firebase backend with Google Cloud Run AI service
+- **� Authentication**: FastAPI backend with JWT tokens and Google Sign-In (OAuth 2.0)
+-- **☁️ Cloud-Native**: FastAPI backend (PostgreSQL) with AI service that can be deployed to Google Cloud Run or similar
 - **🔒 Security**: End-to-end encryption with role-based access control
 
 ## 🛠 Technology Stack
 
 - **Frontend**: React Native (Expo, TypeScript)
 - **Backend**: Firebase (Firestore, Auth, Storage, Functions, Cloud Messaging)
-- **AI Engine**: Python FastAPI (deployed on Google Cloud Run)
 - **Notifications**: Firebase Cloud Messaging + Gmail API
 - **UI Design**: Inter + Poppins fonts, Blue & Gold fintech color palette
 
 ## 📱 Installation
 
 ### Prerequisites
+- **Backend**: FastAPI + PostgreSQL (replaced Firebase backend)
 
 - Node.js 18+
 - Expo CLI
-- Firebase CLI
-- Google Cloud SDK
 - Python 3.8+
+- PostgreSQL server (local or managed)
+- (optional) Google Cloud SDK for deploying the AI service
 
 ### Setup
 
@@ -47,26 +47,30 @@ A peer-to-peer lending platform that connects Borrowers and Lenders through EcoC
    cd app
    npm install
    
-   # Install Firebase Functions dependencies
-   cd ../firebase-functions
-   npm install
-   
    # Install AI service dependencies
    cd ../ai-service
    pip install -r requirements.txt
    ```
 
-3. **Configure Firebase**
-   - Create a Firebase project
-   - Enable Authentication, Firestore, Storage, Functions, and Cloud Messaging
-   - Update `app/src/config/firebase.ts` with your Firebase config
-   - Update `firebase-functions/.env` with your Firebase credentials
+3. **Configure Backend & Google OAuth**
+   - Start or provision a PostgreSQL database and note the connection URL (e.g. postgresql://user:pass@localhost:5432/microcreditchain)
+   - Create a `.env` in `ai-service` (or set environment variables) with:
+     - DATABASE_URL (Postgres connection string)
+     - SECRET_KEY (JWT secret)
+     - GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET (for Google Sign-In)
+   - Update frontend `app` to use Google OAuth client IDs in `SignUp` / `Login` screens (see `SignUpScreen.tsx`)
 
 4. **Configure AI Service**
-   - Update `firebase-functions/src/ai-integration.ts` with your AI service URL
-   - Deploy the AI service to Google Cloud Run
+   - The AI service is in `ai-service/main.py`. Start it locally with the DATABASE_URL and SECRET_KEY set, or deploy to Cloud Run.
 
-5. **Start the development server**
+5. **Configure the mobile app (Expo)**
+   - Copy `app/.env.example` to `app/.env` and set:
+     - `EXPO_PUBLIC_BACKEND_URL` (FastAPI base URL)
+     - `EXPO_PUBLIC_AI_SERVICE_URL` (AI analyzer base URL)
+     - Optional: OAuth client IDs with `EXPO_PUBLIC_*`
+   - These map to `API_ENDPOINTS` in `app/src/utils/constants.ts`.
+
+6. **Start the development server**
    ```bash
    cd app
    expo start
@@ -74,13 +78,15 @@ A peer-to-peer lending platform that connects Borrowers and Lenders through EcoC
 
 ## 🚀 Deployment
 
-### Firebase Functions
+### Run AI Service Locally
 ```bash
-cd firebase-functions
-firebase deploy --only functions
+cd ai-service
+pip install -r requirements.txt
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### AI Service
+### AI Service (deploy)
+You can deploy the AI service to Google Cloud Run or any container platform. Example with Cloud Run:
 ```bash
 cd ai-service
 gcloud run deploy ai-analyzer --source . --region=us-central1
@@ -92,6 +98,8 @@ cd app
 expo build:android
 expo build:ios
 ```
+
+Tip: You can also use EAS for modern builds. Ensure your environment variables are set in EAS project settings.
 
 ## 📊 Database Schema
 
@@ -159,10 +167,11 @@ The AI service analyzes EcoCash statements and returns:
 
 ## 🔐 Security
 
-- Firebase Security Rules for data access control
-- Role-based authentication
-- Secure file uploads to Firebase Storage
-- Encrypted data transmission
+- Do not commit secrets; `.gitignore` prevents common secret files
+- Role-based authentication and JWTs
+- Validate file uploads and enforce PDF/size limits
+- Encrypted data transmission (HTTPS in production)
+- Service accounts and keystores are excluded from version control
 
 ## 📱 UI/UX Design
 
@@ -182,10 +191,6 @@ The AI service analyzes EcoCash statements and returns:
 ## 🧪 Testing
 
 ```bash
-# Test Firebase Functions
-cd firebase-functions
-npm test
-
 # Test AI Service
 cd ai-service
 python -m pytest
@@ -206,21 +211,26 @@ Admin dashboard provides:
 
 ## 🔔 Notifications
 
-- Push notifications via Firebase Cloud Messaging
-- Email notifications via Gmail API
-- Real-time updates for loan status changes
-- System-wide announcements
+- Server-managed notifications stored in PostgreSQL. Push delivery (FCM/APNS) is optional and can be integrated separately.
 
 ## 📞 Support
 
 For support and questions:
 - Email: support@microcreditchain.com
-- Documentation: [Link to docs]
+- Server-managed notifications stored in PostgreSQL. Push delivery (FCM/APNS) can be integrated separately.
 - Issues: [GitHub Issues]
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🧩 Mobile app status
+
+- Core flows implemented: email/password auth, role-based dashboards, creating offers (lender), browsing/applying for loans (borrower), notifications list and read state.
+- AI integration: upload EcoCash PDF and call analyzer endpoints with sensible fallbacks.
+- Config: runtime URLs via `EXPO_PUBLIC_*` env vars.
+
+Backend alignment note: The mobile app expects REST endpoints as documented in `API_DOCUMENTATION.md` (e.g., `/loan-offers`, `/loan-applications`, `/notifications`, `/admin/*`). Ensure your FastAPI service implements these paths or add a gateway that maps existing paths.
 
 ## 🤝 Contributing
 

@@ -1,0 +1,50 @@
+# Node/Expo
+node_modules/
+**/node_modules/
+npm-debug.log*
+.expo/
+.expo/web/cache/
+dist/
+build/
+
+# Android/Gradle
+app/android/.gradle/
+app/android/app/build/
+*.apk
+*.aab
+*.keystore
+*.jks
+*.p12
+
+# iOS (if prebuilt)
+ios/
+Pods/
+*.xcworkspace
+*.xcuserdatad/
+DerivedData/
+
+# Python
+**/__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Env/Secrets
+.env
+.env.*
+*.env
+*.local
+secrets.json
+microcredidtchain-p2p-*.json
+*service-account*.json
+
+# Do not ignore the actual app google-services JSON used by Expo
+!app/src/config/google-services.json
+
+# OS/Editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Logs
+*.log

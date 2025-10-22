@@ -1,172 +1,81 @@
 # MicroCreditChain P2P - Configuration Guide
 
-## 🔧 Firebase Configuration
+This project was migrated from Firebase to a FastAPI + PostgreSQL backend. The following steps explain how to configure the new stack for local development and deployment.
 
-### 1. Firebase Project Setup
+## 🔧 Backend Configuration (FastAPI + PostgreSQL)
 
-1. **Create Firebase Project**
-   ```bash
-   firebase login
-   firebase init
+### 1. Database
+
+1. Provision a PostgreSQL instance (local or managed). Example local URL:
+   ```text
+   postgresql://postgres:password@localhost:5432/microcreditchain
    ```
 
-2. **Enable Services**
-   - Authentication (Email/Password, Phone)
-   - Firestore Database
-   - Cloud Storage
-   - Cloud Functions
-   - Cloud Messaging
-
-3. **Update Firebase Config**
-   ```typescript
-   // app/src/config/firebase.ts
-   const firebaseConfig = {
-     apiKey: "your-api-key",
-     authDomain: "your-project.firebaseapp.com",
-     projectId: "your-project-id",
-     storageBucket: "your-project.appspot.com",
-     messagingSenderId: "your-sender-id",
-     appId: "your-app-id"
-   };
-   ```
+2. Create the database and user if necessary.
 
 ### 2. Environment Variables
 
-Create `.env` files in the following locations:
+Create a `.env` file in the `ai-service` folder or export these variables in your environment:
 
-**firebase-functions/.env**
 ```env
-FIREBASE_PROJECT_ID=your-project-id
-FIREBASE_PRIVATE_KEY=your-private-key
-FIREBASE_CLIENT_EMAIL=your-client-email
-GMAIL_USER=your-gmail@gmail.com
-GMAIL_APP_PASSWORD=your-app-password
-AI_SERVICE_URL=https://ml.microcreditchain.ai
-VAPID_KEY=your-vapid-key
+DATABASE_URL=postgresql://user:password@localhost:5432/microcreditchain
+SECRET_KEY=your_jwt_secret
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
 ```
 
-### 3. Gmail API Setup
+### 3. AI Service
 
-1. **Enable Gmail API**
-   - Go to Google Cloud Console
-   - Enable Gmail API
-   - Create OAuth 2.0 credentials
+The AI analyzer and backend API live in `ai-service/main.py`. To run locally:
 
-2. **Generate App Password**
-   - Go to Google Account settings
-   - Enable 2-factor authentication
-   - Generate app-specific password
+```bash
+cd ai-service
+pip install -r requirements.txt
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
 
-### 4. AI Service Configuration
+The server will create database tables automatically using SQLAlchemy's `Base.metadata.create_all` on startup. For production use, add Alembic for migrations.
 
-1. **Deploy AI Service**
-   ```bash
-   cd ai-service
-   gcloud run deploy ai-analyzer --source . --region=us-central1
-   ```
+### 4. Google OAuth (Google Sign-In)
 
-2. **Update AI Service URL**
-   - Update `AI_SERVICE_URL` in Firebase Functions
-   - Update `AI_SERVICE_URL` in React Native app
+1. Create OAuth 2.0 credentials in Google Cloud Console and obtain a `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`.
+2. Configure these values in the `ai-service` environment variables.
+3. Configure the Expo app to use the same client IDs in `SignUpScreen.tsx` (expo-auth-session). Also register redirect URIs in Google Cloud Console for your Expo development URLs.
 
-### 5. Push Notifications Setup
+### 5. Uploads and Storage
 
-1. **Generate VAPID Keys**
-   ```bash
-   npx web-push generate-vapid-keys
-   ```
+Uploaded statements are stored in `ai-service/uploads` by default (development). For production, integrate S3/GCS and update the upload endpoint to return stable URLs.
 
-2. **Configure FCM**
-   - Add FCM server key to Firebase Functions
-   - Configure VAPID keys in React Native app
+### 6. Notifications
 
-### 6. Database Security Rules
+Notifications are stored in the PostgreSQL `notifications` table. The backend exposes endpoints to create, list, mark-as-read, and query unread counts. Push delivery (FCM/APNS) can be integrated separately.
 
-The following security rules are already configured:
+### 7. Testing
 
-- **Users**: Can read/write their own data, admins can read all
-- **Loan Offers**: Readable by all, writable by lenders and admins
-- **Loan Applications**: Accessible by borrower, lender, and admins
-- **Notifications**: Users can only access their own notifications
-- **Storage**: Statements accessible by authenticated users
+Run unit tests for the AI service:
 
-### 7. Deployment Configuration
+```bash
+cd ai-service
+python -m pytest
+```
 
-1. **Firebase Functions**
-   ```bash
-   cd firebase-functions
-   npm run build
-   firebase deploy --only functions
-   ```
+Frontend tests (if any) can be run in the `app` folder:
 
-2. **Firestore Rules**
-   ```bash
-   firebase deploy --only firestore:rules
-   ```
+```bash
+cd app
+npm test
+```
 
-3. **Storage Rules**
-   ```bash
-   firebase deploy --only storage
-   ```
+### 8. Deployment
 
-4. **React Native App**
-   ```bash
-   cd app
-   expo build:android
-   expo build:ios
-   ```
+You can deploy the FastAPI/AI service to any container platform. For Cloud Run, build a container and deploy. Make sure the `DATABASE_URL` environment variable points to a production database.
 
-### 8. Testing Configuration
+### 9. Security Considerations
 
-1. **Run Tests**
-   ```bash
-   chmod +x test.sh
-   ./test.sh
-   ```
+- Do not commit secrets to version control. Use environment variables or secret managers.
+- Validate and sanitize uploaded files.
+- Ensure JWT secrets are sufficiently strong and rotated periodically.
 
-2. **Firebase Emulators**
-   ```bash
-   firebase emulators:start
-   ```
+## Support
 
-### 9. Production Checklist
-
-- [ ] Firebase project configured
-- [ ] Environment variables set
-- [ ] Gmail API configured
-- [ ] AI service deployed
-- [ ] Push notifications configured
-- [ ] Security rules deployed
-- [ ] Functions deployed
-- [ ] App built and tested
-- [ ] Monitoring configured
-
-### 10. Monitoring and Analytics
-
-1. **Firebase Analytics**
-   - Enable in Firebase Console
-   - Configure custom events
-
-2. **Error Tracking**
-   - Firebase Crashlytics
-   - Sentry integration
-
-3. **Performance Monitoring**
-   - Firebase Performance
-   - Custom metrics
-
-## 🚨 Security Considerations
-
-1. **API Keys**: Never commit API keys to version control
-2. **Database Rules**: Regularly review and update security rules
-3. **User Data**: Implement proper data encryption
-4. **Authentication**: Use strong password policies
-5. **File Uploads**: Validate and sanitize uploaded files
-
-## 📞 Support
-
-For configuration issues:
-- Check Firebase Console for errors
-- Review Cloud Functions logs
-- Test with Firebase Emulators
-- Contact support: support@microcreditchain.com
+Contact: support@microcreditchain.com

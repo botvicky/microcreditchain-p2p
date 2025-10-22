@@ -2,17 +2,15 @@
 
 ## 🔗 Base URLs
 
-- **Firebase Functions**: `https://us-central1-your-project.cloudfunctions.net`
-- **AI Service**: `https://ml.microcreditchain.ai`
-- **Firebase Auth**: `https://identitytoolkit.googleapis.com`
-- **Firestore**: `https://firestore.googleapis.com`
+- **Backend API**: `http://localhost:8000` (default for local FastAPI)
+- **AI Service**: `https://ml.microcreditchain.ai` (same service – hosted or local)
 
 ## 🔐 Authentication
 
-All API calls require Firebase Authentication token in the Authorization header:
+All API calls require a JWT access token issued by the FastAPI backend in the Authorization header:
 
 ```
-Authorization: Bearer <firebase-auth-token>
+Authorization: Bearer <access_token>
 ```
 
 ## 📱 Mobile App APIs
@@ -213,38 +211,15 @@ Body: {
 }
 ```
 
-## 🔄 Firebase Cloud Functions
+## 🔄 Backend Hooks & Triggers
 
-### Triggers
+The project previously used Firebase Cloud Functions for event-driven logic. The current architecture handles these events inside the FastAPI backend or via background workers. Equivalent behaviors:
 
-#### onStatementUpload
-- **Trigger**: PDF uploaded to Storage
-- **Action**: Send to AI service, save analysis
-- **Path**: `statements/{applicationId}/statement.pdf`
+- onStatementUpload: when a file is uploaded to the backend `/uploads`, the backend can call the AI service `/analyze-pdf` to analyze and persist results.
+- onLoanApproved: when a loan application status changes to `approved`, the backend creates contracts and emits notifications to users (stored in the `notifications` table).
+- onRepaymentMade: when a repayment is recorded, the backend updates loan balances, calculates commission, and logs financials.
 
-#### onLoanApproved
-- **Trigger**: Loan application status changed to 'approved'
-- **Action**: Create contract, send notifications
-- **Collection**: `loanApplications`
-
-#### onRepaymentMade
-- **Trigger**: New repayment created
-- **Action**: Update loan balance, calculate commission
-- **Collection**: `repayments`
-
-### Callable Functions
-
-#### freezeAccount
-```typescript
-const freezeAccount = httpsCallable(functions, 'freezeAccount');
-await freezeAccount({ userId: string, status: 'active' | 'frozen' });
-```
-
-#### getAnalytics
-```typescript
-const getAnalytics = httpsCallable(functions, 'getAnalytics');
-const analytics = await getAnalytics();
-```
+Administrative/analytics endpoints are available under `/admin/*` and are implemented as backend REST endpoints (see "Admin APIs" section).
 
 ## 🤖 AI Service APIs
 
