@@ -9,9 +9,11 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Image,
 } from 'react-native';
 import { useAuthStore } from '../../store/authStore';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
+import { DevLoginHelper } from '../../components/DevLoginHelper';
 
 const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -31,6 +33,11 @@ const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     }
   };
 
+  const handleDevLogin = (devEmail: string, devPassword: string) => {
+    setEmail(devEmail);
+    setPassword(devPassword);
+  };
+
   if (loading) {
     return <LoadingSpinner message="Signing in..." />;
   }
@@ -40,9 +47,14 @@ const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
       style={styles.container} 
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
+      <DevLoginHelper onSelectAccount={handleDevLogin} />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.header}>
-          <Text style={styles.title}>MicroCreditChain P2P</Text>
+          <Image 
+            source={require('../../../assets/shamwari_text.png')} 
+            style={styles.logo}
+            resizeMode="contain"
+          />
           <Text style={styles.subtitle}>Welcome back</Text>
         </View>
 
@@ -110,12 +122,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 48,
   },
-  title: {
-    fontSize: 32,
-    fontWeight: '600',
-    color: '#0052CC',
-    fontFamily: 'Poppins-SemiBold',
-    marginBottom: 8,
+  logo: {
+    width: 250,
+    height: 60,
+    marginBottom: 16,
   },
   subtitle: {
     fontSize: 18,
@@ -151,7 +161,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Regular',
   },
   loginButton: {
-    backgroundColor: '#0052CC',
+    backgroundColor: '#00224d',
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',
@@ -167,7 +177,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   forgotPasswordText: {
-    color: '#0052CC',
+    color: '#00224d',
     fontSize: 16,
     fontFamily: 'Inter-Regular',
   },
@@ -183,7 +193,7 @@ const styles = StyleSheet.create({
   },
   signUpLink: {
     fontSize: 16,
-    color: '#0052CC',
+    color: '#00224d',
     fontWeight: '600',
     fontFamily: 'Inter-Bold',
   },

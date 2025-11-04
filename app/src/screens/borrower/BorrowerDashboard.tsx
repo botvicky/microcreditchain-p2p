@@ -16,7 +16,7 @@ import { LoadingSpinner } from '../../components/LoadingSpinner';
 import { useNavigation } from '@react-navigation/native';
 
 export const BorrowerDashboard: React.FC = () => {
-  const { user } = useAuthStore();
+  const { user, signOut } = useAuthStore();
   const navigation = useNavigation<any>();
   const [loanOffers, setLoanOffers] = useState<LoanOffer[]>([]);
   const [applications, setApplications] = useState<LoanApplication[]>([]);
@@ -179,14 +179,19 @@ export const BorrowerDashboard: React.FC = () => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Quick Actions</Text>
         <View style={styles.actionsContainer}>
-          <TouchableOpacity style={styles.actionButton}>
-            <Text style={styles.actionButtonText}>Browse Loans</Text>
+          <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('Notifications')}>
+            <Text style={styles.actionButtonText}>Notifications</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
-            <Text style={styles.actionButtonText}>Upload Statement</Text>
+          <TouchableOpacity style={styles.actionButton} onPress={() => loadLoanOffers()}>
+            <Text style={styles.actionButtonText}>Refresh Offers</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
-            <Text style={styles.actionButtonText}>My Profile</Text>
+          <TouchableOpacity style={styles.actionButton} onPress={async () => {
+            Alert.alert('Logout', 'Are you sure you want to logout?', [
+              { text: 'Cancel', style: 'cancel' },
+              { text: 'Logout', onPress: async () => await signOut() }
+            ]);
+          }}>
+            <Text style={styles.actionButtonText}>Logout</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -279,7 +284,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FA',
   },
   header: {
-    backgroundColor: '#0052CC',
+    backgroundColor: '#00224d',
     padding: 24,
     paddingTop: 60,
   },
@@ -315,7 +320,7 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 24,
     fontWeight: '600',
-    color: '#0052CC',
+    color: '#00224d',
     fontFamily: 'Poppins-SemiBold',
   },
   statLabel: {
@@ -354,12 +359,12 @@ const styles = StyleSheet.create({
   offerAmount: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#0052CC',
+    color: '#00224d',
     fontFamily: 'Poppins-SemiBold',
   },
   offerRate: {
     fontSize: 16,
-    color: '#00B894',
+    color: '#00bf80',
     fontFamily: 'Inter-Bold',
   },
   offerDuration: {
@@ -444,7 +449,7 @@ const styles = StyleSheet.create({
   },
   actionButtonText: {
     fontSize: 14,
-    color: '#0052CC',
+    color: '#00224d',
     fontFamily: 'Inter-Bold',
   },
   sectionHeader: {
@@ -454,7 +459,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   filterButton: {
-    backgroundColor: '#0052CC',
+    backgroundColor: '#00224d',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 6,
@@ -532,7 +537,7 @@ const styles = StyleSheet.create({
   },
   applyButton: {
     flex: 1,
-    backgroundColor: '#0052CC',
+    backgroundColor: '#00224d',
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',

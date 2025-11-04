@@ -10,6 +10,7 @@ import {
   Platform,
   ScrollView,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import * as Google from 'expo-auth-session/providers/google';
 import { ResponseType } from 'expo-auth-session';
@@ -104,8 +105,12 @@ const SignUpScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     >
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.header}>
-          <Text style={styles.title}>Create Account</Text>
-          <Text style={styles.subtitle}>Join MicroCreditChain P2P</Text>
+          <Image 
+            source={require('../../../assets/shamwari_text.png')} 
+            style={styles.logo}
+            resizeMode="contain"
+          />
+          <Text style={styles.subtitle}>Join ShamwariPay</Text>
         </View>
 
         <View style={styles.form}>
@@ -156,20 +161,20 @@ const SignUpScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           <View style={styles.inputContainer}>
             <Text style={styles.label}>I want to be a:</Text>
             <View style={styles.roleContainer}>
-                <TouchableOpacity
-                  style={[
-                    styles.roleButton,
-                    formData.role === 'borrower' && styles.roleButtonActive
-                  ]}
-                  onPress={() => handleInputChange('role', 'borrower')}
-                >
-                  <Text style={[
-                    styles.roleButtonText,
-                    formData.role === 'borrower' && styles.roleButtonTextActive
-                  ]}>
-                    Borrower
-                  </Text>
-                </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.roleButton,
+                  formData.role === 'borrower' && styles.roleButtonActive
+                ]}
+                onPress={() => handleInputChange('role', 'borrower')}
+              >
+                <Text style={[
+                  styles.roleButtonText,
+                  formData.role === 'borrower' && styles.roleButtonTextActive
+                ]}>
+                  Borrower
+                </Text>
+              </TouchableOpacity>
               <TouchableOpacity
                 style={[
                   styles.roleButton,
@@ -212,10 +217,16 @@ const SignUpScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           {error && (
             <Text style={styles.errorText}>{error}</Text>
           )}
+
           <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
             <Text style={styles.signUpButtonText}>Create Account</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.signUpButton, { backgroundColor: '#4285F4' }]} onPress={() => promptAsync()}>
+
+          <TouchableOpacity 
+            style={[styles.signUpButton, styles.googleButton]} 
+            onPress={() => promptAsync()}
+            disabled={!request}
+          >
             <Text style={styles.signUpButtonText}>Sign Up with Google</Text>
           </TouchableOpacity>
         </View>
@@ -246,12 +257,10 @@ const styles = StyleSheet.create({
     marginBottom: 32,
     marginTop: 20,
   },
-  title: {
-    fontSize: 28,
-    fontWeight: '600',
-    color: '#0052CC',
-    fontFamily: 'Poppins-SemiBold',
-    marginBottom: 8,
+  logo: {
+    width: 250,
+    height: 60,
+    marginBottom: 16,
   },
   subtitle: {
     fontSize: 16,
@@ -294,7 +303,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   roleButtonActive: {
-    borderColor: '#0052CC',
+    borderColor: '#00224d',
     backgroundColor: '#F0F4FF',
   },
   roleButtonText: {
@@ -303,7 +312,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Regular',
   },
   roleButtonTextActive: {
-    color: '#0052CC',
+    color: '#00224d',
     fontFamily: 'Inter-Bold',
   },
   errorText: {
@@ -313,11 +322,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Regular',
   },
   signUpButton: {
-    backgroundColor: '#0052CC',
+    backgroundColor: '#00224d',
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',
     marginBottom: 16,
+  },
+  googleButton: {
+    backgroundColor: '#4285F4',
   },
   signUpButtonText: {
     color: '#FFFFFF',
@@ -337,7 +349,7 @@ const styles = StyleSheet.create({
   },
   signInLink: {
     fontSize: 16,
-    color: '#0052CC',
+    color: '#00224d',
     fontWeight: '600',
     fontFamily: 'Inter-Bold',
   },

@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FA',
   },
   header: {
-    backgroundColor: '#0052CC',
+    backgroundColor: '#00224d',
     padding: 24,
     paddingTop: 60,
   },
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   durationButtonActive: {
-    borderColor: '#0052CC',
+    borderColor: '#00224d',
     backgroundColor: '#F0F4FF',
   },
   durationButtonText: {
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Regular',
   },
   durationButtonTextActive: {
-    color: '#0052CC',
+    color: '#00224d',
     fontFamily: 'Inter-Bold',
   },
   infoBox: {
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
   infoTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#0052CC',
+    color: '#00224d',
     fontFamily: 'Inter-Bold',
     marginBottom: 8,
   },
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   createButton: {
-    backgroundColor: '#00B894',
+    backgroundColor: '#00bf80',
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',

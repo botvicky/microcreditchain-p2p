@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "MicroCreditChain P2P",
-    "slug": "microcreditchain-p2p",
+    "name": "ShamwariPay",
+    "slug": "shamwaripay",
+    "owner": "botvicky",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -9,21 +10,21 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0052CC"
+      "backgroundColor": "#00224d"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.microcreditchain.p2p"
+      "bundleIdentifier": "com.shamwaripay.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0052CC"
+        "backgroundColor": "#00224d"
       },
-      "package": "com.microcreditchain.p2p"
+      "package": "com.shamwaripay.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"

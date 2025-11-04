@@ -213,11 +213,11 @@ Body: {
 
 ## 🔄 Backend Hooks & Triggers
 
-The project previously used Firebase Cloud Functions for event-driven logic. The current architecture handles these events inside the FastAPI backend or via background workers. Equivalent behaviors:
+The current architecture handles event-driven logic inside the FastAPI backend. Key behaviors:
 
-- onStatementUpload: when a file is uploaded to the backend `/uploads`, the backend can call the AI service `/analyze-pdf` to analyze and persist results.
-- onLoanApproved: when a loan application status changes to `approved`, the backend creates contracts and emits notifications to users (stored in the `notifications` table).
-- onRepaymentMade: when a repayment is recorded, the backend updates loan balances, calculates commission, and logs financials.
+- **onStatementUpload**: When a file is uploaded to the backend `/uploads`, the backend can call the AI service `/analyze-pdf` to analyze and persist results.
+- **onLoanApproved**: When a loan application status changes to `approved`, the backend creates contracts and emits notifications to users (stored in the `notifications` table).
+- **onRepaymentMade**: When a repayment is recorded, the backend updates loan balances, calculates commission, and logs financials.
 
 Administrative/analytics endpoints are available under `/admin/*` and are implemented as backend REST endpoints (see "Admin APIs" section).
 
@@ -352,24 +352,26 @@ interface Notification {
 ## 🔒 Security
 
 ### Authentication
-- Firebase Auth tokens required
-- Tokens expire after 1 hour
-- Refresh tokens valid for 30 days
+- JWT access tokens required for authenticated endpoints
+- Tokens generated on login/signup using PyJWT
+- Token validation on each request via FastAPI dependencies
+- Secure token storage using Expo Secure Store
 
 ### Authorization
-- Role-based access control
-- Resource-level permissions
+- Role-based access control (admin, lender, borrower)
+- Resource-level permissions enforced by backend
 - Admin-only functions protected
 
 ### Data Protection
-- All data encrypted in transit
-- Sensitive data encrypted at rest
+- All data encrypted in transit (HTTPS in production)
+- Passwords hashed using bcrypt via passlib
+- Sensitive data encrypted at rest (database level)
 - PII data anonymized in logs
 
 ## 📞 Support
 
 For API issues:
-- Check Firebase Console logs
-- Review Cloud Functions logs
-- Test with Firebase Emulators
-- Contact: api-support@microcreditchain.com
+- Check backend server logs (uvicorn output)
+- Review FastAPI docs at `http://localhost:8000/docs`
+- Test endpoints using Swagger UI or Postman
+- Contact: support@shamwaripay.com

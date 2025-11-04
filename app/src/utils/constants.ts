@@ -1,11 +1,24 @@
 // App Constants
-export const APP_NAME = 'MicroCreditChain P2P';
+export const APP_NAME = 'ShamwariPay';
 export const APP_VERSION = '1.0.0';
 
 // API Endpoints
 export const API_ENDPOINTS = {
   AI_SERVICE: process.env.EXPO_PUBLIC_AI_SERVICE_URL || 'https://ml.microcreditchain.ai',
   BACKEND: process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8000',
+};
+
+// Colors
+export const COLORS = {
+  PRIMARY: '#00224d',
+  SECONDARY: '#00bf80',
+  ACCENT: '#00bf80',
+  ERROR: '#E63946',
+  BACKGROUND: '#FFFFFF',
+  TEXT: '#2C2C2C',
+  TEXT_LIGHT: '#FFFFFF',
+  GRAY: '#666',
+  LIGHT_GRAY: '#E0E0E0',
 };
 
 // User Roles

@@ -113,7 +113,7 @@ export class AIService {
   static getRiskColor(riskLevel: string): string {
     switch (riskLevel) {
       case 'Low':
-        return '#00B894';
+        return '#00bf80';
       case 'Medium':
         return '#FFD700';
       case 'High':
@@ -124,7 +124,7 @@ export class AIService {
   }
 
   static getScoreColor(score: number): string {
-    if (score >= 70) return '#00B894';
+    if (score >= 70) return '#00bf80';
     if (score >= 50) return '#FFD700';
     return '#E63946';
   }

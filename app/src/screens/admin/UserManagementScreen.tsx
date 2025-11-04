@@ -123,17 +123,17 @@ export const UserManagementScreen: React.FC = () => {
   };
 
   const getStatusColor = (status: string): string => {
-    return status === 'active' ? '#00B894' : '#E63946';
+    return status === 'active' ? '#00bf80' : '#E63946';
   };
 
   const getRoleColor = (role: string): string => {
     switch (role) {
       case 'admin':
-        return '#0052CC';
+        return '#00224d';
       case 'lender':
-        return '#FFD700';
+        return '#00bf80';
       case 'borrower':
-        return '#00B894';
+        return '#00bf80';
       default:
         return '#666';
     }
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FA',
   },
   header: {
-    backgroundColor: '#0052CC',
+    backgroundColor: '#00224d',
     padding: 24,
     paddingTop: 60,
   },
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   roleFilterActive: {
-    backgroundColor: '#0052CC',
+    backgroundColor: '#00224d',
   },
   roleFilterText: {
     fontSize: 14,
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
   },
   boostButton: {
     flex: 1,
-    backgroundColor: '#FFD700',
+    backgroundColor: '#00bf80',
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',

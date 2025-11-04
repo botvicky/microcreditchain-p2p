@@ -1,26 +1,46 @@
-# MicroCreditChain P2P
+# ShamwariPay
 
 A peer-to-peer lending platform that connects Borrowers and Lenders through EcoCash/OneMoney, using a FastAPI + PostgreSQL backend and a Python AI/ML service for EcoCash statement analysis.
 
 ## 🚀 Features
 
--- **🔐 Authentication**: FastAPI backend with JWT tokens and Google Sign-In (OAuth 2.0)
+- **🔐 Authentication**: FastAPI backend with JWT tokens and Google Sign-In (OAuth 2.0)
 - **👥 Role-based Access**: Borrower, Lender, and Admin dashboards with secure permissions
 - **🤖 AI-Powered Analysis**: Real EcoCash statement analysis for creditworthiness scoring
 - **💰 Loan Management**: Create offers, apply for loans, track repayments with automated scheduling
-- **🔔 Notifications**: Push notifications and email alerts with Firebase Cloud Messaging
+- **🔔 Notifications**: Database-backed notification system with real-time updates
 - **💸 Revenue System**: 15% commission on lender profits with automated calculation
 - **👨‍💼 Admin Panel**: Comprehensive user management, analytics, and system controls
-- **� Authentication**: FastAPI backend with JWT tokens and Google Sign-In (OAuth 2.0)
--- **☁️ Cloud-Native**: FastAPI backend (PostgreSQL) with AI service that can be deployed to Google Cloud Run or similar
-- **🔒 Security**: End-to-end encryption with role-based access control
+- **☁️ Cloud-Native**: FastAPI backend (PostgreSQL/SQLite) with AI service that can be deployed to Google Cloud Run or similar
+- **🔒 Security**: End-to-end encryption with role-based access control and bcrypt password hashing
 
 ## 🛠 Technology Stack
 
-- **Frontend**: React Native (Expo, TypeScript)
-- **Backend**: Firebase (Firestore, Auth, Storage, Functions, Cloud Messaging)
-- **Notifications**: Firebase Cloud Messaging + Gmail API
-- **UI Design**: Inter + Poppins fonts, Blue & Gold fintech color palette
+### Frontend
+- **React Native 0.81.4** - Cross-platform mobile framework
+- **Expo ~54.0.13** - Development platform and tooling
+- **TypeScript** - Type-safe JavaScript
+- **Zustand** - Lightweight state management
+- **Expo Secure Store** - Encrypted local storage
+- **Expo Auth Session** - OAuth 2.0 authentication
+
+### Backend
+- **FastAPI** - Modern Python web framework
+- **SQLAlchemy** - ORM for database operations
+- **PostgreSQL/SQLite** - Database (SQLite for dev, PostgreSQL for production)
+- **JWT (PyJWT)** - Token-based authentication
+- **Passlib + bcrypt** - Password hashing and encryption
+- **Uvicorn** - ASGI server
+
+### AI/ML
+- **PyPDF2** - PDF parsing for bank statements
+- **pandas** - Data analysis for transaction processing
+- **Custom ML Algorithm** - Credit scoring based on transaction history
+
+### UI Design
+- **React Native Paper** - Material Design components
+- **Colors**: Navy Blue (#00224d) & Emerald Green (#00bf80)
+- **Fonts**: Inter + Poppins
 
 ## 📱 Installation
 
@@ -176,9 +196,9 @@ The AI service analyzes EcoCash statements and returns:
 ## 📱 UI/UX Design
 
 ### Color Palette
-- Primary: #0052CC (Blue)
-- Secondary: #FFD700 (Gold)
-- Accent: #00B894 (Emerald Green)
+- Primary: #00224d (Navy Blue)
+- Secondary: #00bf80 (Emerald Green)
+- Accent: #00bf80 (Emerald Green)
 - Error: #E63946
 - Background: #FFFFFF
 - Text: #2C2C2C
@@ -190,6 +210,19 @@ The AI service analyzes EcoCash statements and returns:
 
 ## 🧪 Testing
 
+### Test Accounts
+For development and testing, use these pre-configured accounts:
+
+- **Admin:** `admin@shamwaripay.com` / `admin123`
+- **Lender:** `lender@shamwaripay.com` / `lender123`
+- **Borrower:** `borrower@shamwaripay.com` / `borrower123`
+
+📝 See [TEST_ACCOUNTS.md](./TEST_ACCOUNTS.md) for complete details and features.
+
+**Quick Login in Dev Mode:**
+Click the **🔧 Dev Login** button on the login screen to auto-fill credentials.
+
+### Running Tests
 ```bash
 # Test AI Service
 cd ai-service
@@ -216,7 +249,7 @@ Admin dashboard provides:
 ## 📞 Support
 
 For support and questions:
-- Email: support@microcreditchain.com
+- Email: support@shamwaripay.com
 - Server-managed notifications stored in PostgreSQL. Push delivery (FCM/APNS) can be integrated separately.
 - Issues: [GitHub Issues]
 

@@ -55,12 +55,12 @@ export default ForgotPasswordScreen;
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff', justifyContent: 'center' },
   innerContainer: { padding: 24 },
-  title: { fontSize: 28, fontWeight: '600', color: '#0052CC', marginBottom: 8, textAlign: 'center' },
+  title: { fontSize: 28, fontWeight: '600', color: '#00224d', marginBottom: 8, textAlign: 'center' },
   subtitle: { fontSize: 16, color: '#2C2C2C', marginBottom: 24, textAlign: 'center' },
   input: { borderWidth: 1, borderColor: '#E0E0E0', borderRadius: 8, padding: 16, fontSize: 16, marginBottom: 16 },
-  message: { color: '#0052CC', fontSize: 14, marginBottom: 16, textAlign: 'center' },
-  resetButton: { backgroundColor: '#0052CC', borderRadius: 8, padding: 16, alignItems: 'center', marginBottom: 16 },
+  message: { color: '#00224d', fontSize: 14, marginBottom: 16, textAlign: 'center' },
+  resetButton: { backgroundColor: '#00224d', borderRadius: 8, padding: 16, alignItems: 'center', marginBottom: 16 },
   resetButtonText: { color: '#fff', fontSize: 18, fontWeight: '600' },
   backButton: { alignItems: 'center' },
-  backButtonText: { color: '#0052CC', fontSize: 16 },
+  backButtonText: { color: '#00224d', fontSize: 16 },
 });

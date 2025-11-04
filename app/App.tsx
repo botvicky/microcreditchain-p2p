@@ -53,7 +53,7 @@ export default function App() {
   const getScreenOptions = (title: string) => ({
     title,
     headerStyle: {
-      backgroundColor: '#0052CC',
+      backgroundColor: '#00224d',
     },
     headerTintColor: '#FFFFFF',
     headerTitleStyle: {
@@ -64,7 +64,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <StatusBar style="light" backgroundColor="#0052CC" />
+      <StatusBar style="light" backgroundColor="#00224d" />
       <Stack.Navigator
         initialRouteName={getInitialRouteName()}
         screenOptions={{

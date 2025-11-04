@@ -74,7 +74,7 @@ export const NotificationsScreen: React.FC = () => {
   const getNotificationColor = (type: string): string => {
     switch (type) {
       case 'loan_approval':
-        return '#00B894';
+        return '#00bf80';
       case 'loan_rejection':
         return '#E63946';
       case 'repayment_reminder':
@@ -82,7 +82,7 @@ export const NotificationsScreen: React.FC = () => {
       case 'account_frozen':
         return '#E63946';
       case 'system':
-        return '#0052CC';
+        return '#00224d';
       default:
         return '#666';
     }
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FA',
   },
   header: {
-    backgroundColor: '#0052CC',
+    backgroundColor: '#00224d',
     padding: 24,
     paddingTop: 60,
   },
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   },
   unreadCard: {
     borderLeftWidth: 4,
-    borderLeftColor: '#0052CC',
+    borderLeftColor: '#00224d',
   },
   notificationHeader: {
     flexDirection: 'row',
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#0052CC',
+    backgroundColor: '#00224d',
     marginLeft: 8,
     marginTop: 4,
   },

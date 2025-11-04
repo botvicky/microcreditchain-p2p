@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "microcreditchain-p2p"
+  },
+  "targets": {},
+  "etags": {}
+}

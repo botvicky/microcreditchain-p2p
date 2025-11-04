@@ -21,7 +21,7 @@ interface Analytics {
 }
 
 export const AdminDashboard: React.FC = () => {
-  const { user } = useAuthStore();
+  const { user, signOut } = useAuthStore();
   const [analytics, setAnalytics] = useState<Analytics>({
     totalUsers: 0,
     activeBorrowers: 0,
@@ -204,14 +204,19 @@ export const AdminDashboard: React.FC = () => {
           >
             <Text style={styles.actionButtonText}>Send Notification</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
-            <Text style={styles.actionButtonText}>System Logs</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
-            <Text style={styles.actionButtonText}>Backup Data</Text>
+          <TouchableOpacity style={styles.actionButton} onPress={() => loadAnalytics()}>
+            <Text style={styles.actionButtonText}>Refresh Analytics</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.actionButton}>
             <Text style={styles.actionButtonText}>Revenue Report</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton} onPress={async () => {
+            Alert.alert('Logout', 'Are you sure you want to logout?', [
+              { text: 'Cancel', style: 'cancel' },
+              { text: 'Logout', onPress: async () => await signOut() }
+            ]);
+          }}>
+            <Text style={styles.actionButtonText}>Logout</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -264,7 +269,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FA',
   },
   header: {
-    backgroundColor: '#0052CC',
+    backgroundColor: '#00224d',
     padding: 24,
     paddingTop: 60,
   },
@@ -311,7 +316,7 @@ const styles = StyleSheet.create({
   analyticsNumber: {
     fontSize: 24,
     fontWeight: '600',
-    color: '#0052CC',
+    color: '#00224d',
     fontFamily: 'Poppins-SemiBold',
   },
   analyticsLabel: {
@@ -345,7 +350,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Regular',
   },
   managementButton: {
-    backgroundColor: '#0052CC',
+    backgroundColor: '#00224d',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 6,
@@ -373,7 +378,7 @@ const styles = StyleSheet.create({
   },
   actionButtonText: {
     fontSize: 14,
-    color: '#0052CC',
+    color: '#00224d',
     fontFamily: 'Inter-Bold',
   },
   activityCard: {

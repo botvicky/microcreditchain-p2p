@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FA',
   },
   header: {
-    backgroundColor: '#0052CC',
+    backgroundColor: '#00224d',
     padding: 24,
     paddingTop: 60,
   },
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   uploadButton: {
     backgroundColor: '#FFFFFF',
     borderWidth: 2,
-    borderColor: '#0052CC',
+    borderColor: '#00224d',
     borderStyle: 'dashed',
     borderRadius: 8,
     padding: 24,
@@ -185,12 +185,12 @@ const styles = StyleSheet.create({
   },
   uploadButtonText: {
     fontSize: 16,
-    color: '#0052CC',
+    color: '#00224d',
     fontFamily: 'Inter-Bold',
   },
   fileName: {
     fontSize: 14,
-    color: '#00B894',
+    color: '#00bf80',
     fontFamily: 'Inter-Regular',
     textAlign: 'center',
   },
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   infoTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#0052CC',
+    color: '#00224d',
     fontFamily: 'Inter-Bold',
     marginBottom: 8,
   },
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   submitButton: {
-    backgroundColor: '#0052CC',
+    backgroundColor: '#00224d',
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',
